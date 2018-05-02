@@ -21,11 +21,14 @@ class Index extends Controller
         //保存文件
         $attachPdf = $this->upload();
         $attachPdf = "uploads/".$attachPdf;
+
+        //生成笺头
         $createdPdf = $CreatePdf->creRelayPdf($post);
 
+        //合并PDF
         $mergedPdf = $MergePdf->getMergedPdf($createdPdf,$attachPdf);
 
-        //展示
+        //结果展示 相对于根路径
         echo "<script type='text/javascript'>";
         echo "window.location.href='/".$mergedPdf."'";
         echo "</script>";
@@ -39,7 +42,6 @@ class Index extends Controller
             $info = $file->move(ROOT_PATH . 'public' . DS . 'uploads');
             if($info){
                 // 成功上传后 获取上传信息
-                // 输出 jpg
                 // 输出 20160820/42a79759f284b767dfcb2a0197904287.jpg
                 return $info->getSaveName();
             }else{

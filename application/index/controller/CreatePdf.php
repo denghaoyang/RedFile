@@ -17,41 +17,40 @@ class CreatePdf {
 
     public function creRelayPdf($post)
     {
+        //引入核心文件
         require_once(__DIR__.'/../../../vendor/tcpdf/tcpdf/tcpdf.php');
+        //初始化参数 A4纸 UTF-8编码
         $pdf = new \TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
+
+
         $pdf->SetAuthor('Denghy');
-        //$pdf->SetTitle('TCPDF Example 048');
         $pdf->SetSubject('TCPDF Tutorial');
         $pdf->SetKeywords('TCPDF, PDF, PHP');
 
-// set default header data
+        // set default header data
         $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE.' 048', PDF_HEADER_STRING);
 
-// set header and footer fonts
+        // set header and footer fonts
         $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
         $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
 
-// set default monospaced font
+        // set default monospaced font
         $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 
         // 设置间距
-        //$pdf->setCellMargins(2, 2, 2,2);
         $pdf->SetMargins(20, 30, 20);
+        // 取消打印的头部
         $pdf->setPrintHeader(false);
         $pdf->SetFooterMargin(1);
         $pdf->setPrintFooter(false);
-        //$pdf->SetHeaderMargin(5);
-        //$pdf->SetFooterMargin(10);
 
-// set auto page breaks
+        // set auto page breaks
         $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
 
-// ---------------------------------------------------------
-
-// set font
+        // 设置仿宋字体 32号字
         $pdf->SetFont('simfang', '', 32);
 
-// add a page
+        // add a page
         $pdf->AddPage();
 
         $pdf->Write(0, '收文处理专用笺', '', 0, 'C', true, 0, false, false, 0);

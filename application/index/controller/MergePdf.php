@@ -25,7 +25,7 @@ class MergePdf{
         //获取发文的pdf附件地址
         $myTask->addFile(__DIR__.'/../../../public/'.$pdf2);
 
-// process files
+//  设置文件名
         $myTask->setOutputFilename(time().'.pdf');
 
         $myTask->execute();
