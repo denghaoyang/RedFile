@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>政府笺头自动生成</title>
+    <!-- Bootstrap-->
+    <link rel="stylesheet" href="static/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="static/bootstrap/js/bootstrap.js">
+    <!-- Bootstrap File Input -->
+    <link rel="stylesheet" href="static/inputfile/css/fileinput.min.css">
+    <script type="text/javascript" src="static/js/jquery1.11.2.min.js"></script>
+    <script type="text/javascript" src="static/inputfile/js/fileinput.min.js"></script>
+    <!-- 时间插件 -->
+    <link rel="stylesheet" type="text/css" href="static/js/jedate/skin/jedate.css">
+    <script type="text/javascript" src="static/js/jedate/jquery.jedate.js"></script>
+    <!-- 验证表单插件 -->
+    <script type="text/javascript" src="static/js/jquery.validate.min.js"></script>
+</head>
+<body>
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+    <form enctype="multipart/form-data" method="post" action="{:url('save')}">
+        <div class="form-group">
+            <label for="title">文章标题</label>
+            <input type="text" class="form-control" id="title" name="title" placeholder="文章标题">
+        </div>
+        <div class="form-group">
+            <label for="receiveNumber">收文号</label>
+            <input type="text" class="form-control" id="receiveNumber" name="receiveNumber" placeholder="收文号">
+        </div>
+        <div class="form-group">
+            <label for="receiveTime">收文日期</label>
+            <input type="text" class="form-control" id="receiveTime" name="receiveTime" placeholder="收文日期">
+        </div>
+        <div class="form-group">
+            <label for="sendNumber">来文号</label>
+            <input type="text" class="form-control" id="sendNumber" name="sendNumber" placeholder="来文号">
+        </div>
+        <div class="form-group">
+            <label for="sendTime">来文日期</label>
+            <input type="text" class="form-control" id="sendTime" name="sendTime" placeholder="来文日期">
+        </div>
+        <div class="form-group">
+            <label for="pdf">文件上传</label>
+            <input type="file" name="pdf" id="pdf" multiple class="file-loading" />
+        </div>
+        <button type="submit" class="btn btn-success">提交</button>
+    </form>
+    </div>
+    <div class="col-md-3"></div>
+    <script type="text/javascript">
+        $(function() {
+            // 初始化时间控件
+            var receiveTime = {
+                format: 'YYYY-MM-DD',
+                choosefun: function (elem, datas) {
+                }
+            };
+            var fromTime = {
+                format: 'YYYY-MM-DD',
+                choosefun: function (elem, datas) {
+                }
+            };
+            $("#receiveTime").jeDate(receiveTime);
+            $("#sendTime").jeDate(fromTime);
+        })
+
+        //初始化fileinput控件（第一次初始化）
+        $("#pdf").fileinput({
+            language: 'zh', //设置语言
+            uploadUrl: '/upload', //上传的地址
+            allowedFileExtensions : ['pdf'],//接收的文件后缀
+            showUpload: false, //是否显示上传按钮
+            showCaption: false,//是否显示标题
+            browseClass: "btn btn-primary", //按钮样式
+            previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+        });
+
+        // 验证
+        $("#myform").validate({
+            debug: true, //调试模式取消submit的默认提交功能
+            focusInvalid: true, //当为false时，验证无效时，没有焦点响应
+            onkeyup: false,
+            submitHandler: function (form) {   //表单提交句柄,为一回调函数，带一个参数：form
+                if($("#pdfname").html() == ""){
+                    alert("请上传PDF文件",4);
+                }else{
+                    form.submit();   //提交表单
+                }
+            },
+            rules: {
+                receive_number: {
+                    required: true
+                },
+                from_number: {
+                    required: true
+                },
+                receive_time: {
+                    required: true,
+                    date:true
+                },
+                form_time: {
+                    required: true,
+                    date:true
+                },
+                title: {
+                    required: true
+                }
+            },
+            messages: {
+                receive_number: {
+                    required: "必填"
+                },
+                from_number: {
+                    required: "必填"
+                },
+                receive_time: {
+                    required: "必填",
+                    date: "无效的时间格式"
+                },
+                form_time: {
+                    required: "必填",
+                    date: "无效的时间格式"
+                },
+                title: {
+                    required: "必填"
+                }
+            },
+            //重写showErrors
+            showErrors: function (errorMap, errorList) {
+                var msg = "";
+                $.each(errorList, function (i, v) {
+                    //msg += (v.message + "\r\n");
+                    //在此处用了layer的方法,显示效果更美观
+                    layer.tips(v.message, v.element, {time: 3000});
+                    return false;
+                });
+            }
+        });
+    </script>
+</body>
+</html>
