@@ -27,14 +27,14 @@ class CreatePdf {
         $pdf->SetSubject('TCPDF Tutorial');
         $pdf->SetKeywords('TCPDF, PDF, PHP');
 
-        // set default header data
+        // 设置顶部数据
         $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE.' 048', PDF_HEADER_STRING);
 
-        // set header and footer fonts
+        // 设置header和footer字体
         $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
         $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
 
-        // set default monospaced font
+        // 设置默认的等宽字体
         $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 
         // 设置间距
@@ -44,13 +44,12 @@ class CreatePdf {
         $pdf->SetFooterMargin(1);
         $pdf->setPrintFooter(false);
 
-        // set auto page breaks
+        //生成每页的自动空白
         $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
 
         // 设置仿宋字体 32号字
         $pdf->SetFont('simfang', '', 32);
 
-        // add a page
         $pdf->AddPage();
 
         $pdf->Write(0, '收文处理专用笺', '', 0, 'C', true, 0, false, false, 0);
@@ -62,7 +61,7 @@ class CreatePdf {
         $pdf->Write(0,date('Y年n月d日',strtotime($post['receiveTime'])).'收', '', 0, 'R', true, 0, false, false, 0);
 
 // -----------------------------------------------------------------------------
-
+        //生成表格
         $tbl = '
 <table cellspacing="0" cellpadding="1" border="1">
     <tr>
